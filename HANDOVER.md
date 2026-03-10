@@ -1,6 +1,6 @@
 # OhiScan Monitor 引継書
 
-**最終更新**: 2026-03-09 15:20  
+**最終更新**: 2026-03-10 16:36  
 **アプリバージョン**: 2.0.0  
 **GitHubリポジトリ**: https://github.com/hiroshiiwaki-netizen/OhiScan-Monitor
 
@@ -53,13 +53,12 @@ OhiScan Monitor（GAS / トリガーで定期実行）
 ```
 OhiScan Monitor/
 ├── Code.gs                    ← GASメインスクリプト（v2.0.0）
-├── Code_backup_*.gs           ← バックアップ
 ├── README.md                  ← プロジェクトドキュメント
 ├── HANDOVER.md                ← この引継書
 ├── GITHUB_SETUP.md            ← GitHub手動セットアップ手順（参考）
 ├── .clasp.json                ← clasp設定
 ├── appsscript.json            ← Apps Script設定
-└── .gitignore                 ← Git除外設定
+└── .gitignore                 ← Git除外設定（*_backup_* 除外済み）
 ```
 
 ## 🔍 監視ロジック
@@ -130,6 +129,7 @@ git add . && git commit -m "メッセージ" && git push origin main
 1. **共有ドライブへのアクセス権限**: GASのサービスアカウントに`FAX/保存`フォルダへのアクセス権限が必要
 2. **通知の重複**: 15分毎に監視するため、問題が解決されるまで15分毎に通知される
 3. **フォルダID**: `17dL1uIUbGEaYhZpkwfTczl4JgvQ-IPKs` ← これは`FAX/保存`フォルダ（❌FAXSCAN_Logsではない）
+4. **🔴 バックアップファイル**: `.gs`拡張子のバックアップをプロジェクトルートに絶対に置かない。GASは全`.gs`ファイルを同一スコープで実行するため`const CONFIG`等の重複宣言エラーになる（2026-03-10 24時間エラー発生の教訓）。バックアップは`_backup`フォルダに保存する。`.gitignore`に`*_backup_*`除外ルール追加済み。
 
 ## デザインガイドライン (2026-02-02追記)
 本プロジェクトのデザイン・UI実装は、以下の共通ガイドラインに厳格に準拠してください。

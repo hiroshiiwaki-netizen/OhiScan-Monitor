@@ -1,7 +1,7 @@
 # OhiScan Monitor 引継書
 
-**最終更新**: 2026-03-10 16:36  
-**アプリバージョン**: 2.0.0  
+**最終更新**: 2026-03-17 16:30  
+**アプリバージョン**: 2.1.0  
 **GitHubリポジトリ**: https://github.com/hiroshiiwaki-netizen/OhiScan-Monitor
 
 ## 📌 プロジェクト概要
@@ -39,6 +39,13 @@ OhiScan Monitor（GAS / トリガーで定期実行）
    - 深夜0〜1時: フォルダ未作成でもアラートしない
    - 午前10時前: 日フォルダ・スプレッドシート未作成でもアラートしない
 
+3. **フォルダ事前作成**（v2.1.0〜）
+   - 毎月25日 深夜0〜1時に自動実行（月タイマートリガー）
+   - 翌月分のデポ別フォルダ（登録済/未処理）を一括作成
+   - 既存フォルダはスキップ（冪等性確保）
+   - 作成完了後にGoogle Chatに結果通知
+   - **【目的】** 3台PCが同時にフォルダ作成してGoogle Driveが「フォルダ名 (1)」を生成する問題の根本解決
+
 ## 🔧 v2.0.0 変更内容（2026-03-09）
 
 1. **デポ別フォルダ構造に対応**
@@ -52,13 +59,14 @@ OhiScan Monitor（GAS / トリガーで定期実行）
 
 ```
 OhiScan Monitor/
-├── Code.gs                    ← GASメインスクリプト（v2.0.0）
+├── Code.gs                    ← GASメインスクリプト（v2.1.0）
 ├── README.md                  ← プロジェクトドキュメント
 ├── HANDOVER.md                ← この引継書
 ├── GITHUB_SETUP.md            ← GitHub手動セットアップ手順（参考）
 ├── .clasp.json                ← clasp設定
-├── appsscript.json            ← Apps Script設定
-└── .gitignore                 ← Git除外設定（*_backup_* 除外済み）
+├── .claspignore               ← pushから_backupフォルダを除外
+├── appsscript.json            ← Apps Script設定（Drive権限追加済み）
+└── _backup/                   ← バックアップ（GASスコープ対象外）
 ```
 
 ## 🔍 監視ロジック
